@@ -34,6 +34,7 @@ const NoteState=(props)=>{
           "user": "62b9d7bf11e1e6ac0c889fca",
           "title": title,
           "discription": discription,
+          "tag": tag,
           "date": "2022-06-28T19:24:43.992Z",
           "__v": 0
         }
@@ -41,11 +42,19 @@ const NoteState=(props)=>{
       }
 
       // Delete a note
-      const deletenote=(id)=>{
-        console.log("deleting a note", id );
+      const deletenote = async (id)=>{
+        const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJiOWQ3YmYxMWUxZTZhYzBjODg5ZmNhIn0sImlhdCI6MTY1NjM0NjU1OX0.LXVFzw5shHrykbojbpANrFRrFFfNMA7RRHCIgk7sP44"
+        },
+      });
+      const json = response.json();
+      console.log(json);
         setnotes(notes.filter((note)=>{return note._id!==id}))
       }
-      
+
       // Edit a note
       const editnote= async (id,title,discription,tag)=>{
 
