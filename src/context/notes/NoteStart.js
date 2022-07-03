@@ -12,7 +12,7 @@ const NoteState=(props)=>{
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJiOWQ3YmYxMWUxZTZhYzBjODg5ZmNhIn0sImlhdCI6MTY1NjM0NjU1OX0.LXVFzw5shHrykbojbpANrFRrFFfNMA7RRHCIgk7sP44"
+            'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJiOWQ3YmYxMWUxZTZhYzBjODg5ZmNhIn0sImlhdCI6MTY1Njc4NjcwMH0.vExYKrMWGtwfpONnh3EKRiMZ3KT9GUhU5Cmp0Ai-6-I"
           },
         });
         const json= await response.json();
@@ -20,25 +20,17 @@ const NoteState=(props)=>{
       }
 
       // Add note
-      const addnote=async (title,discription,tag)=>{
+      const addnote=async (title,discription)=>{
         const response = await fetch(`${host}/api/notes/addnote`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJiOWQ3YmYxMWUxZTZhYzBjODg5ZmNhIn0sImlhdCI6MTY1NjM0NjU1OX0.LXVFzw5shHrykbojbpANrFRrFFfNMA7RRHCIgk7sP44"
+            'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJiOWQ3YmYxMWUxZTZhYzBjODg5ZmNhIn0sImlhdCI6MTY1Njc4NjcwMH0.vExYKrMWGtwfpONnh3EKRiMZ3KT9GUhU5Cmp0Ai-6-I"
           },
-          body: JSON.stringify({title,discription,tag}) 
+          body: JSON.stringify({title,discription}) 
         });
-        const note={
-          "_id": "62bb557b570c04e094ad9d683",
-          "user": "62b9d7bf11e1e6ac0c889fca",
-          "title": title,
-          "discription": discription,
-          "tag": tag,
-          "date": "2022-06-28T19:24:43.992Z",
-          "__v": 0
-        }
-        setnotes(notes.concat(note))
+        const note = await response.json()
+        setnotes(notes.concat(note));
       }
 
       // Delete a note
@@ -47,7 +39,7 @@ const NoteState=(props)=>{
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJiOWQ3YmYxMWUxZTZhYzBjODg5ZmNhIn0sImlhdCI6MTY1NjM0NjU1OX0.LXVFzw5shHrykbojbpANrFRrFFfNMA7RRHCIgk7sP44"
+          'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJiOWQ3YmYxMWUxZTZhYzBjODg5ZmNhIn0sImlhdCI6MTY1Njc4NjcwMH0.vExYKrMWGtwfpONnh3EKRiMZ3KT9GUhU5Cmp0Ai-6-I"
         },
       });
       const json = response.json();
@@ -56,26 +48,29 @@ const NoteState=(props)=>{
       }
 
       // Edit a note
-      const editnote= async (id,title,discription,tag)=>{
+      const editnote= async (id,title,discription)=>{
 
           const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
-            method: 'POST',
+            method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
-              'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJiOWQ3YmYxMWUxZTZhYzBjODg5ZmNhIn0sImlhdCI6MTY1NjM0NjU1OX0.LXVFzw5shHrykbojbpANrFRrFFfNMA7RRHCIgk7sP44"
+              'auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJiOWQ3YmYxMWUxZTZhYzBjODg5ZmNhIn0sImlhdCI6MTY1Njc4NjcwMH0.vExYKrMWGtwfpONnh3EKRiMZ3KT9GUhU5Cmp0Ai-6-I"
             },
-            body: JSON.stringify({title,discription,tag}) 
+            body: JSON.stringify({title,discription}) 
           });
-          const json = response.json();
+          const json = await response.json();
+          console.log(json);
           // eslint-disable-next-line 
-        for (let index = 0; index < notes.length; index++) {
-          const element = notes[index];
+          let newnote=JSON.parse(JSON.stringify(notes));
+        for (let index = 0; index < newnote.length; index++) {
+          const element = newnote[index];
           if(element._id=== id){
-            element.title=title;
-            element.discription=discription;
-            element.tag=tag;
+            newnote[index].title=title;
+            newnote[index].discription=discription;
+            break;
           }
         }
+        setnotes(newnote);
       }
     return (
         <NoteContext.Provider value={{notes,addnote,deletenote,editnote,getNote}}>
