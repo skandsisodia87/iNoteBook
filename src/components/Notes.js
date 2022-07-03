@@ -17,9 +17,8 @@ function Notes() {
         setnote({id:currentnote._id, etitle: currentnote.title, ediscription: currentnote.discription })
     }
     const handleClick = (e) => {
-        console.log("Running",note);
         editnote(note.id,note.etitle,note.ediscription)
-        refClose.current.click();
+        refClose.current.click([]);
         e.preventDefault();           // avoid to reload a page while submitting
     }
 
@@ -55,7 +54,7 @@ function Notes() {
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button ref={refClose} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" ref={refClose} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="button" disabled={note.etitle.length<5 || note.ediscription.length<5} onClick={handleClick} className="btn btn-primary">Update note</button>
                         </div>
                     </div>  

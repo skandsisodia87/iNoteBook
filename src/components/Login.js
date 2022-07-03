@@ -1,11 +1,8 @@
-import React from 'react';
-import { useState } from "react";
-// import {useHistory} from "react-routers-dom"
+import React,{ useState }  from 'react';
 import {useNavigate} from 'react-router-dom';
 
 function Login() {
     const [cerdential, setCerdential] = useState({email:"",password:""});
-    // let history= useHistory();
     let navigate=useNavigate();
     const handlesubmit=async (e)=>{
         e.preventDefault(); 
