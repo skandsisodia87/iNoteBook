@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import NoteContext from '../context/notes/noteContext'
 import Noteitem from './Noteitem';
 
-function Notes() {
+function Notes(props) {
     const context = useContext(NoteContext)
     const { notes, getNote,editnote} = context;
     const ref = useRef(null);
@@ -19,6 +19,7 @@ function Notes() {
     const handleClick = (e) => {
         editnote(note.id,note.etitle,note.ediscription)
         refClose.current.click([]);
+        props.showAlert("Updated SuccessFully","success")
         e.preventDefault();           // avoid to reload a page while submitting
     }
 
@@ -67,7 +68,7 @@ function Notes() {
                 {notes.length===0 && 'Nathing to display'}
                 </div>
                 {notes.map((note) => {
-                    return <Noteitem key={note._id} note={note} updatenote={updatenote} />
+                    return <Noteitem key={note._id} note={note} updatenote={updatenote} showAlert={props.showAlert}/>
                 })}
             </div>
         </>
