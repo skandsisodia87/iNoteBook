@@ -19,9 +19,9 @@ function Signup(props) {
       // Save the auth token and redirect 
       localStorage.setItem('token', json.authtoken)
       navigation('/')
-      props.showAlert("Account created Successfully","success")
+      props.showAlert("Account created Successfully", "success")
     } else {
-      props.showAlert("Invalid Crendentials","danger")
+      props.showAlert("Invalid Crendentials", "danger")
     }
   }
 
@@ -31,6 +31,7 @@ function Signup(props) {
 
   return (
     <div className='container'>
+      <h2 className='mb-3'>Create an account to use iNoteBook</h2>
       <form onSubmit={handlesubmit}>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">Name</label>
@@ -48,7 +49,11 @@ function Signup(props) {
           <label htmlFor="cpassword" className="form-label">Confirm Password</label>
           <input type="password" className="form-control" id="cpassword" name='cpassword' onChange={onchange} minLength={5} required />
         </div>
-        <button type="submit" className="btn btn-dark">Submit</button>
+        <div className="mb-3 form-check">
+          <input type="checkbox" className="form-check-input" id="exampleCheck1" required />
+          <label className="form-check-label" htmlFor="exampleCheck1">I have read Terms and Conditions</label>
+        </div>
+        <button type="submit" className="btn btn-dark">Create</button>
       </form>
     </div>
   );
